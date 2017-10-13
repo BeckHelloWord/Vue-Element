@@ -1,20 +1,16 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import element from '@/components/element'
 
-Vue.use(Router)
-
-export default new Router({
-  routes: [{
-      path: '/',
-      name: 'Hello',
-      component: HelloWorld
-    },
-    {
-      path: '/element',
-      name: 'element',
-      component: element
+const routerOption = [
+  // component 懒加载
+  { path: '/', name: 'index', component: resolve => require(['../components/HelloWorld.vue'], resolve) },
+  { path: '/element', component: resolve => require(['../components/element.vue'], resolve) },
+  {
+    path: '/demo', component: resolve => require(['../components/demo.vue'], resolve), beforeEnter: (to, from, next) => {
+      console.log(to)
+      console.log(from);
+      // next();
     }
-  ]
-})
+  },
+  { path: '/beck', redirect: { name: 'index' } } //重定向
+]
+
+export default routerOption;
